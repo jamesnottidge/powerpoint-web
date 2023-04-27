@@ -9,6 +9,7 @@ export type Slide = {
   title: string;
   subtitle: string;
   color: string;
+  presentationId: number;
 };
 
 export type State = {
