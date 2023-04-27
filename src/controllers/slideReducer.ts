@@ -3,7 +3,7 @@ import { combineReducers, createActionAndReducer } from "../utils.js";
 import { Slide, State } from "../types";
 
 const [addSlideAction, addSlideReducer] = createActionAndReducer(
-  "presentation/addSlideAction",
+  "slide/addSlideAction",
   (state: State, payload: Slide) => {
     const { data, currentPresentation } = state;
 
@@ -24,20 +24,33 @@ const [addSlideAction, addSlideReducer] = createActionAndReducer(
   }
 );
 
-// const { dispatch, state } = useGlobalState();
-// dispatch(
-//   addSlideAction({
-//     slideId: 102,
-//     title: "First slide",
-//     subtitle: "a sub",
-//     color: "#000000",
-//     presentationId: 1,
-//   })
-// );
+const [removeSlideAction, removeSlideReducer] = createActionAndReducer(
+  "slide/removeSlideAction",
+  (state: State, payload: number) => {
+    const { data, currentPresentation } = state;
 
-// console.log(state);
+    const updatedData = data.map((presentation) => {
+      if (presentation.presentationId !== currentPresentation) {
+        return presentation;
+      }
+      return {
+        ...presentation,
+        slides: presentation.slides.filter(
+          (slide) => slide.slideId !== payload
+        ),
+      };
+    });
+    return {
+      ...state,
+      data: updatedData,
+    };
+  }
+);
 
-export const slideReducer = combineReducers(addSlideReducer);
+export const slideReducer = combineReducers(
+  addSlideReducer,
+  removeSlideReducer
+);
 
 export const useSlide = () => {
   // @ts-ignore
@@ -45,7 +58,10 @@ export const useSlide = () => {
   const { currentSlide, data } = state;
 
   return {
+    currentSlide: state.currentSlide,
     // @ts-ignore
     addSlide: (newSlide: Slide) => dispatch(addSlideAction(newSlide)),
+    // @ts-ignore
+    removeSlide: (slideId: number) => dispatch(removeSlideAction(slideId)),
   };
 };

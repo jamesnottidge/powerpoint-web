@@ -27,7 +27,7 @@ type Props = {
 };
 
 const initialState: State = {
-  currentPresentation: 0,
+  currentPresentation: 1,
   currentSlide: 0,
   data: dataJson.data,
 };
