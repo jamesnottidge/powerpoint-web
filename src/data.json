@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "presentationId": 1,
+      "name": "John",
+      "slides": [
+        {
+          "slideId": 100,
+          "title": "First slide",
+          "subtitle": "a sub",
+          "color": "#000000"
+        },
+        {
+          "slideId": 101,
+          "title": "SECond slide",
+          "subtitle": "a sub",
+          "color": "#000000"
+        }
+      ]
+    }
+  ]
+}

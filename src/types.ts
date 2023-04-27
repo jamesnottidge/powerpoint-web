@@ -8,5 +8,16 @@ export type Slide = {
   slideId: number;
   title: string;
   subtitle: string;
-  color: `#${string}`;
+  color: string;
+};
+
+export type State = {
+  currentPresentation: number;
+  currentSlide: number;
+  data: Presentation[];
+};
+
+export type Action = {
+  type: string;
+  payload?: any;
 };
