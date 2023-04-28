@@ -76,14 +76,15 @@ export const useSlide = (id?: number) => {
     data: Presentation[];
   } = state;
 
+  const presentation = data.filter(
+    (presentation) => presentation.presentationId === currentPresentation
+  )[0];
+
+  const slide = presentation.slides.filter((slide) => slide.slideId === id)[0];
+
   return {
     currentSlide: currentSlide,
-    slide: data
-      .filter(
-        (presentation) =>
-          presentation.presentationId === state.currentPresentation
-      )[0]
-      .slides.filter((slide) => slide.slideId === (id ? id : currentSlide))[0],
+    slide: slide,
     //@ts-ignore
     editTitle: (slideTitle: string) => dispatch(editTitleAction(slideTitle)),
 
