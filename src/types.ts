@@ -8,6 +8,7 @@ export type Slide = {
   slideId: number;
   title: string;
   subtitle: string;
+  description: string;
   color: string;
   presentationId: number;
 };
