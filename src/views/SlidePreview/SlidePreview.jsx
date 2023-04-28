@@ -42,6 +42,7 @@ const SlidePreview = () => {
                   slideId: randomNumber(),
                   title: randomNumber().toString(),
                   subtitle: "a sub",
+                  description: "a description",
                   color: "#FFFFFF",
                   presentationId: 1,
                 });
