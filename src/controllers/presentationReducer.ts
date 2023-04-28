@@ -47,9 +47,20 @@ const [removeSlideAction, removeSlideReducer] = createActionAndReducer(
   }
 );
 
+const [selectSlideAction, selectSlideReducer] = createActionAndReducer(
+  "presentation/selectSlideAction",
+  (state: State, payload: number) => {
+    return {
+      ...state,
+      currentSlide: payload,
+    };
+  }
+);
+
 export const presentationReducer = combineReducers(
   addSlideReducer,
-  removeSlideReducer
+  removeSlideReducer,
+  selectSlideReducer
 );
 
 export const usePresentation = () => {
@@ -63,5 +74,7 @@ export const usePresentation = () => {
     addSlide: (newSlide: Slide) => dispatch(addSlideAction(newSlide)),
     // @ts-ignore
     removeSlide: (slideId: number) => dispatch(removeSlideAction(slideId)),
+    // @ts-ignore
+    selectSlide: (slideId: number) => dispatch(selectSlideAction(slideId)),
   };
 };
