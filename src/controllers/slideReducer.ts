@@ -58,9 +58,38 @@ const [editSubtitleAction, editSubtitleReducer] = createActionAndReducer(
   }
 );
 
+const [editDescriptionAction, editDescriptionReducer] = createActionAndReducer(
+  "slide/editDescription",
+  (state: State, payload: string) => {
+    const { data, currentPresentation, currentSlide } = state;
+    const updatedData = data.map((presentation) => {
+      if (presentation.presentationId !== currentPresentation) {
+        return presentation;
+      }
+      return {
+        ...presentation,
+        slides: presentation.slides.map((slide) => {
+          if (slide.slideId !== currentSlide) {
+            return slide;
+          }
+          return {
+            ...slide,
+            description: payload,
+          };
+        }),
+      };
+    });
+    return {
+      ...state,
+      data: updatedData,
+    };
+  }
+);
+
 export const slideReducer = combineReducers(
   editTitleReducer,
-  editSubtitleReducer
+  editSubtitleReducer,
+  editDescriptionReducer
 );
 
 export const useSlide = (id?: number) => {
@@ -92,5 +121,8 @@ export const useSlide = (id?: number) => {
       slideSubtitle: string
       //@ts-ignore
     ) => dispatch(editSubtitleAction(slideSubtitle)),
+    editDescription: (description: string) =>
+      //@ts-ignore
+      dispatch(editDescriptionAction(description)),
   };
 };
