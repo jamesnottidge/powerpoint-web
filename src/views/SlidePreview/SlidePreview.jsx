@@ -2,9 +2,11 @@ import React from "react";
 import { usePresentation } from "../../controllers/presentationReducer";
 import { useSlide } from "../../controllers/slideReducer";
 import Slide from "../components/Slide";
+import { randomNumber } from "../viewUtility";
 
 const SlidePreview = () => {
-  const { currentPresentation, presentation, addSlide } = usePresentation();
+  const { presentation, addSlide, selectSlide, currentSlide } =
+    usePresentation();
   return (
     <div className="w-[20%] border border-gray-800 min-h-screen overflow-hidden">
       <aside className="bg-gray-100 w-full min-h-screen p-6">
@@ -18,7 +20,14 @@ const SlidePreview = () => {
         </div>
 
         {presentation.slides.map((slide) => (
-          <div className="border border-gray-800 rounded-md py-2.5 px-6 w-full h-48 flex items-center my-6">
+          <div
+            className={`${
+              slide.slideId === currentSlide
+                ? "border-4 border-blue-400"
+                : "border border-gray-800"
+            }  rounded-md py-2.5 px-6 w-full h-48 flex items-center my-6`}
+            onClick={() => selectSlide(slide.slideId)}
+          >
             <Slide key={slide.slideId} slideId={slide.slideId} />
           </div>
         ))}
@@ -29,10 +38,10 @@ const SlidePreview = () => {
             className="text-xl text-white"
             onClick={() => {
               addSlide({
-                slideId: 109,
-                title: "First slidv",
+                slideId: randomNumber(),
+                title: randomNumber().toString(),
                 subtitle: "a sub",
-                color: "#000000",
+                color: "#000045",
                 presentationId: 1,
               });
             }}

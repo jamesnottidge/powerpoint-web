@@ -8,14 +8,14 @@
           "slideId": 100,
           "title": "First slide",
           "subtitle": "a sub",
-          "color": "#000000",
+          "color": "#300004",
           "presentationId": 1
         },
         {
           "slideId": 101,
           "title": "SECond slide",
           "subtitle": "a sub",
-          "color": "#000000",
+          "color": "#004005",
           "presentationId": 1
         }
       ]
