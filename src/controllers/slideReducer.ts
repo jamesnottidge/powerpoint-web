@@ -1,6 +1,6 @@
 import { useGlobalState } from "../StateContext";
 import { combineReducers, createActionAndReducer } from "../utils";
-import { State } from "../types";
+import { Presentation, State } from "../types";
 
 const [editTitleAction, editTitleReducer] = createActionAndReducer(
   "slide/editTitle",
@@ -63,13 +63,27 @@ export const slideReducer = combineReducers(
   editSubtitleReducer
 );
 
-export const useSlide = () => {
+export const useSlide = (id?: number) => {
   //@ts-ignore
   const { dispatch, state } = useGlobalState();
-  const { currentSlide, data } = state;
+  const {
+    currentPresentation,
+    currentSlide,
+    data,
+  }: {
+    currentPresentation: number;
+    currentSlide: number;
+    data: Presentation[];
+  } = state;
 
   return {
-    currentSlide: state.currentSlide,
+    currentSlide: currentSlide,
+    slide: data
+      .filter(
+        (presentation) =>
+          presentation.presentationId === state.currentPresentation
+      )[0]
+      .slides.filter((slide) => slide.slideId === (id ? id : currentSlide))[0],
     //@ts-ignore
     editTitle: (slideTitle: string) => dispatch(editTitleAction(slideTitle)),
 
