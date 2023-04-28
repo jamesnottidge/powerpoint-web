@@ -1,6 +1,6 @@
 import { useGlobalState } from "../StateContext";
 import { combineReducers, createActionAndReducer } from "../utils.js";
-import { Slide, State } from "../types";
+import { Presentation, Slide, State } from "../types";
 
 const [addSlideAction, addSlideReducer] = createActionAndReducer(
   "presentation/addSlideAction",
@@ -66,10 +66,23 @@ export const presentationReducer = combineReducers(
 export const usePresentation = () => {
   // @ts-ignore
   const { dispatch, state } = useGlobalState();
-  const { currentSlide, data } = state;
+  const {
+    currentPresentation,
+    currentSlide,
+    data,
+  }: {
+    currentPresentation: number;
+    currentSlide: number;
+    data: Presentation[];
+  } = state;
 
   return {
-    currentSlide: state.currentSlide,
+    currentSlide: currentSlide,
+    currentPresentation: currentPresentation,
+    presentation: data.filter(
+      (presentation) =>
+        presentation.presentationId === state.currentPresentation
+    )[0],
     // @ts-ignore
     addSlide: (newSlide: Slide) => dispatch(addSlideAction(newSlide)),
     // @ts-ignore
