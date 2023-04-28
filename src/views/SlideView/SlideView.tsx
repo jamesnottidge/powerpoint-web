@@ -7,10 +7,14 @@ type Props = {
 };
 
 export const SlideView = (props: Props) => {
-  const { currentSlide } = usePresentation();
+  const { currentSlide, presentation } = usePresentation();
   return (
     <div className="w-[80%] border border-gray-800 min-h-screen py-10 px-4">
-      <Slide slideId={currentSlide} />
+      {presentation.slides.map((slide) => {
+        if (slide.slideId === currentSlide) {
+          return <Slide slideId={currentSlide} />;
+        }
+      })}
     </div>
   );
 };

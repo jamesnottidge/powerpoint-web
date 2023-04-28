@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSlide } from "../../controllers/slideReducer";
 import { Title } from "./Title";
 import { Subtitle } from "./Subtitle";
 import { EditTitleInput } from "./EditTitleInput";
 import { EditSubtitleInput } from "./EditSubtitleInput";
+import { Description } from "./Description";
+import { EditDescriptionInput } from "./EditDescriptionInput";
 
 type Props = {
   key?: number;
@@ -14,8 +16,16 @@ const Slide = ({ key, slideId }: Props) => {
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [titleEdit, setTitleEdit] = useState(false);
   const [subtitleEdit, setSubtitleEdit] = useState(false);
-  const { slide, editTitle, editSubtitle } = useSlide(slideId);
+  const [descriptionEdit, setDescriptionEdit] = useState(false);
+  const { slide, editTitle, editSubtitle, editDescription } = useSlide(slideId);
   console.log(slide);
+
+  useEffect(() => {
+    setIsInEditMode(false);
+    setTitleEdit(false);
+    setSubtitleEdit(false);
+    setDescriptionEdit(false);
+  }, []);
 
   const handleTitleSaveClick = (payload) => {
     setTitleEdit(false);
@@ -25,6 +35,11 @@ const Slide = ({ key, slideId }: Props) => {
   const handleSubtitleSaveClick = (payload) => {
     setSubtitleEdit(false);
     editSubtitle(payload);
+  };
+
+  const handleDescriptionSaveClick = (payload) => {
+    setDescriptionEdit(false);
+    editDescription(payload);
   };
 
   return (
@@ -61,9 +76,28 @@ const Slide = ({ key, slideId }: Props) => {
             />
           )}
         </div>
+        <div>
+          {descriptionEdit ? (
+            <EditDescriptionInput
+              description={slide.description}
+              onSaveClick={handleDescriptionSaveClick}
+            />
+          ) : (
+            <Description
+              description={slide.description}
+              isInEditMode={isInEditMode}
+              setDescriptionEdit={setDescriptionEdit}
+            />
+          )}
+        </div>
         <div
           className="absolute top-3 right-5 border rounded-md bg-gray-400 p-2 hover:cursor-pointer"
-          onClick={() => setIsInEditMode(!isInEditMode)}
+          onClick={() => {
+            if (titleEdit) setTitleEdit(false);
+            if (subtitleEdit) setSubtitleEdit(false);
+            if (descriptionEdit) setDescriptionEdit(false);
+            setIsInEditMode(!isInEditMode);
+          }}
         >
           <button>{isInEditMode ? "Cancel" : "Edit"}</button>
         </div>
