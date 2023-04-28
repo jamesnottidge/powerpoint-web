@@ -1,3 +1,4 @@
+import React from "react";
 import {
   createContext,
   Dispatch,
@@ -28,7 +29,7 @@ type Props = {
 
 const initialState: State = {
   currentPresentation: 1,
-  currentSlide: 0,
+  currentSlide: 100,
   data: dataJson.data,
 };
 

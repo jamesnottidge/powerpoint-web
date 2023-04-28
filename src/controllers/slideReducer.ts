@@ -1,43 +1,26 @@
 import { useGlobalState } from "../StateContext";
-import { combineReducers, createActionAndReducer } from "../utils.js";
-import { Slide, State } from "../types";
+import { combineReducers, createActionAndReducer } from "../utils";
+import { State } from "../types";
 
-const [addSlideAction, addSlideReducer] = createActionAndReducer(
-  "slide/addSlideAction",
-  (state: State, payload: Slide) => {
-    const { data, currentPresentation } = state;
-
+const [editTitleAction, editTitleReducer] = createActionAndReducer(
+  "slide/editTitle",
+  (state: State, payload: string) => {
+    const { data, currentPresentation, currentSlide } = state;
     const updatedData = data.map((presentation) => {
       if (presentation.presentationId !== currentPresentation) {
         return presentation;
       }
       return {
         ...presentation,
-        slides: presentation.slides.concat([payload]),
-      };
-    });
-
-    return {
-      ...state,
-      data: updatedData,
-    };
-  }
-);
-
-const [removeSlideAction, removeSlideReducer] = createActionAndReducer(
-  "slide/removeSlideAction",
-  (state: State, payload: number) => {
-    const { data, currentPresentation } = state;
-
-    const updatedData = data.map((presentation) => {
-      if (presentation.presentationId !== currentPresentation) {
-        return presentation;
-      }
-      return {
-        ...presentation,
-        slides: presentation.slides.filter(
-          (slide) => slide.slideId !== payload
-        ),
+        slides: presentation.slides.map((slide) => {
+          if (slide.slideId !== currentSlide) {
+            return slide;
+          }
+          return {
+            ...slide,
+            title: payload,
+          };
+        }),
       };
     });
     return {
@@ -47,21 +30,16 @@ const [removeSlideAction, removeSlideReducer] = createActionAndReducer(
   }
 );
 
-export const slideReducer = combineReducers(
-  addSlideReducer,
-  removeSlideReducer
-);
+export const slideReducer = combineReducers(editTitleReducer);
 
 export const useSlide = () => {
-  // @ts-ignore
+  //@ts-ignore
   const { dispatch, state } = useGlobalState();
   const { currentSlide, data } = state;
 
   return {
     currentSlide: state.currentSlide,
-    // @ts-ignore
-    addSlide: (newSlide: Slide) => dispatch(addSlideAction(newSlide)),
-    // @ts-ignore
-    removeSlide: (slideId: number) => dispatch(removeSlideAction(slideId)),
+    //@ts-ignore
+    editTitle: (slideTitle: string) => dispatch(editTitleAction(slideTitle)),
   };
 };
