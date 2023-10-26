@@ -27,17 +27,17 @@ const Slide = ({ key, slideId }: Props) => {
     setDescriptionEdit(false);
   }, []);
 
-  const handleTitleSaveClick = (payload) => {
+  const handleTitleSaveClick = (payload: any) => {
     setTitleEdit(false);
     editTitle(payload);
   };
 
-  const handleSubtitleSaveClick = (payload) => {
+  const handleSubtitleSaveClick = (payload: any) => {
     setSubtitleEdit(false);
     editSubtitle(payload);
   };
 
-  const handleDescriptionSaveClick = (payload) => {
+  const handleDescriptionSaveClick = (payload: any) => {
     setDescriptionEdit(false);
     editDescription(payload);
   };
@@ -101,6 +101,14 @@ const Slide = ({ key, slideId }: Props) => {
         >
           <button>{isInEditMode ? "Cancel" : "Edit"}</button>
         </div>
+        {isInEditMode ? (
+          <div
+            className="absolute bottom-0 right-0"
+            onClick={() => console.log("Some saving")}
+          >
+            <button>Save</button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

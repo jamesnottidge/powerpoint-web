@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const EditDescriptionInput = ({ onSaveClick, description }: Props) => {
-  const [value, setValue] = useState(description);
+  const [value, setValue] = useState<string>(description);
 
   return (
     <div>

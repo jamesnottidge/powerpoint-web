@@ -19,6 +19,7 @@ const [addSlideAction, addSlideReducer] = createActionAndReducer(
 
     return {
       ...state,
+      currentSlide: payload.slideId,
       data: updatedData,
     };
   }
