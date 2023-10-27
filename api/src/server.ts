@@ -3,6 +3,8 @@ import { IncomingMessage } from "node:http";
 import cors from "cors"
 import morgan from "morgan"
 import { signUp } from './controllers/user-controller';
+import * as e from 'express';
+import errorHandler from './middleware/errorMiddleware';
 
 
 const app = express();
@@ -24,5 +26,6 @@ app.get("/", (req: IncomingMessage, res) => {
 });
 
 app.post("/signup", signUp)
+app.use(errorHandler);
 
 export default app;

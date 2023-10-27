@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Response, Request, NextFunction } from "express";
 import * as bcrypt from "bcrypt";
-
-
+import { AuthenticationError, ValidationError } from "./error-types";
 
 export const createJWT = (user) => {
   const token = jwt.sign(
@@ -15,30 +14,24 @@ export const createJWT = (user) => {
   return token;
 };
 
-
 export const protect = (req: Request, res: Response, next: NextFunction) => {
-  const bearer = req.headers.authorization;
-
-  if (!bearer) {
-    res.status(401);
-    res.send("Not authorized");
-    return;
-  }
-
-  const [, token] = bearer.split(" ");
-  if (!token) {
-    res.status(401);
-    res.json({ message: "Not Valid token" });
-    return;
-  }
-
   try {
+    const bearer = req.headers.authorization;
+    if (!bearer) {
+      throw new AuthenticationError("Not Authorized");
+    }
+
+    const [, token] = bearer.split(" ");
+    if (!token) {
+      throw new AuthenticationError("Invalid Token");
+    }
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     req.user = payload;
     next();
     return;
   } catch (error) {
     console.error(error);
+    next(error);
   }
 };
 

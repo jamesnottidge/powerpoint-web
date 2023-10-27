@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize";
 import { User } from "../models/User";
-
+import { ValidationError, DatabaseError } from "../../modules/error-types";
 export class UserRepository {
   client: Sequelize;
   model: Sequelize["models"];
@@ -19,7 +19,7 @@ export class UserRepository {
       return user;
     } catch (error) {
       console.error(error);
-      throw new Error("Email not found");
+      throw new ValidationError("Email not found");
     }
   }
 
@@ -40,7 +40,7 @@ export class UserRepository {
       };
     } catch (error) {
       console.error(error);
-      throw new Error("Error creating user");
+      throw new DatabaseError("Error creating user", error);
     }
   }
 }

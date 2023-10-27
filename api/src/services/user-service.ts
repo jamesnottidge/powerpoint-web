@@ -1,6 +1,11 @@
 import { sequelize } from "../database/db";
 import { UserRepository } from "../database/repository/user-repository";
 import { createJWT, hashPassword, comparePassword } from "../modules/auth";
+import {
+  ValidationError,
+  DatabaseError,
+  AuthenticationError,
+} from "../modules/error-types";
 
 export class UserService {
   repository: UserRepository;
@@ -9,12 +14,12 @@ export class UserService {
   }
 
   async createUser(userInput: any) {
+    const { firstName, lastName, email, password } = userInput;
+    const validateEmail = await this.repository.findEmail(email);
+    if (validateEmail) {
+      throw new ValidationError("User with this email already exists");
+    }
     try {
-      const { firstName, lastName, email, password } = userInput;
-      const validateEmail = await this.repository.findEmail(email);
-      if (validateEmail) {
-        throw new Error("User with this email already exists");
-      }
       const newUser = await this.repository.createUser({
         firstName,
         lastName,
@@ -24,18 +29,18 @@ export class UserService {
       return newUser;
     } catch (error) {
       console.error(error);
-      throw new Error("Error creating user");
+      throw new DatabaseError("Error creating uses", error);
     }
   }
 
   async loginUser(userInput: any) {
+    const { email, password } = userInput;
+    const user = await this.repository.findEmail(email);
+    const validatePassword = await comparePassword(password, user.password);
+    if (!validatePassword) {
+      throw new AuthenticationError("Incorrect password");
+    }
     try {
-      const { email, password } = userInput;
-      const user = await this.repository.findEmail(email);
-      const validatePassword = await comparePassword(password, user.password);
-      if (!validatePassword) {
-        throw new Error("Incorrect password");
-      }
       const token = createJWT(user);
       return {
         token,
@@ -48,7 +53,7 @@ export class UserService {
       };
     } catch (error) {
       console.error(error);
-      throw new Error("Error logging in user");
+      throw new DatabaseError("Error logging in user", error);
     }
   }
 }
