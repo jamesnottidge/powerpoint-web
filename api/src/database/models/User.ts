@@ -28,10 +28,6 @@ export const User = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      salt: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
     },
     {
       timeStamps: true,

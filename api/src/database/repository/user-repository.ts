@@ -32,7 +32,12 @@ export class UserRepository {
         email,
         password,
       });
-      return newUser;
+      return {
+        id: newUser.id,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        email: newUser.email,
+      };
     } catch (error) {
       console.error(error);
       throw new Error("Error creating user");

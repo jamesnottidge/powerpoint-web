@@ -2,6 +2,7 @@ import express from 'express';
 import { IncomingMessage } from "node:http";
 import cors from "cors"
 import morgan from "morgan"
+import { signUp } from './controllers/user-controller';
 
 
 const app = express();
@@ -21,5 +22,7 @@ const app = express();
 app.get("/", (req: IncomingMessage, res) => {
   res.send("Hello World");
 });
+
+app.post("/signup", signUp)
 
 export default app;
