@@ -36,24 +36,22 @@ export class UserService {
   async loginUser(userInput: any) {
     const { email, password } = userInput;
     const user = await this.repository.findEmail(email);
+    if (!user) {
+      throw new ValidationError("User with this email does not exist");
+    }
     const validatePassword = await comparePassword(password, user.password);
     if (!validatePassword) {
       throw new AuthenticationError("Incorrect password");
     }
-    try {
-      const token = createJWT(user);
-      return {
-        token,
-        user: {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-        },
-      };
-    } catch (error) {
-      console.error(error);
-      throw new DatabaseError("Error logging in user", error);
-    }
+    const token = createJWT(user);
+    return {
+      token,
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      },
+    };
   }
 }

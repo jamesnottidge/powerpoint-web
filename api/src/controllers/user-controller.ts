@@ -23,3 +23,23 @@ export const signUp = async (
     next(error);
   }
 };
+
+export const login = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const loggedInUser = await userService.loginUser({
+            email: req.body.email,
+            password: req.body.password,
+        });
+        return res.status(200).json({
+            message: "Success!",
+            data: loggedInUser,
+        });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};

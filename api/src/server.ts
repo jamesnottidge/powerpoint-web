@@ -2,7 +2,7 @@ import express from "express";
 import { IncomingMessage } from "node:http";
 import cors from "cors";
 import morgan from "morgan";
-import { signUp } from "./controllers/user-controller";
+import { login, signUp } from "./controllers/user-controller";
 import * as e from "express";
 import errorHandler, { handleInputErrors } from "./middleware/errorMiddleware";
 import { body, validationResult } from "express-validator";
@@ -31,6 +31,13 @@ app.post(
   body("lastName").isString().trim().notEmpty(),
   handleInputErrors,
   signUp
+);
+app.post(
+  "/login",
+  body("email").isEmail(),
+  body("password").isString().isLength({ min: 5 }),
+  handleInputErrors,
+  login
 );
 app.use(errorHandler);
 
