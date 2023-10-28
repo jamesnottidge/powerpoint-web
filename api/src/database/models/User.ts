@@ -1,4 +1,3 @@
-import { time, timeStamp } from "console";
 import { DataTypes, Sequelize } from "sequelize";
 
 export const User = (sequelize: Sequelize) => {
@@ -30,7 +29,7 @@ export const User = (sequelize: Sequelize) => {
       },
     },
     {
-      timeStamps: true,
+      timestamps: true,
     }
   );
 };

@@ -1,9 +1,18 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 import { User } from "./User";
+import { Presentation } from "./Presentation";
 
+export function associations(sequelize: Sequelize) {
+  console.log(sequelize);
+  const user = User(sequelize);
+  const presentation = Presentation(sequelize);
 
-export function associations(sequelize: any) {
-    console.log(sequelize);
-    const user = User(sequelize);
-    
+  user.hasMany(presentation, {
+    foreignKey: {
+      name: "created_by",
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+  });
+  presentation.belongsTo(user);
 }
