@@ -30,7 +30,7 @@ export const login = async (
     next: NextFunction
 ) => {
     try {
-        const loggedInUser = await userService.loginUser({
+        const loggedInUser = await userService.loginUser ({
             email: req.body.email,
             password: req.body.password,
         });

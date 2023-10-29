@@ -31,6 +31,7 @@ export const Presentation = (sequelize: Sequelize) => {
       },
       template_id: {
         type: DataTypes.UUID,
+        defaultValue: null,
       },
       slide_count: {
         type: DataTypes.INTEGER,

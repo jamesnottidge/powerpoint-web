@@ -10,7 +10,7 @@ export function associations(sequelize: Sequelize) {
   user.hasMany(presentation, {
     foreignKey: {
       name: "created_by",
-      type: DataTypes.UUID,
+    //   type: DataTypes.UUID,
       allowNull: false,
     },
   });

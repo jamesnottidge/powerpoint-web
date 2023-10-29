@@ -18,15 +18,16 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
   try {
     const bearer = req.headers.authorization;
     if (!bearer) {
-      throw new AuthenticationError("Not Authorized");
+      throw new AuthenticationError("Not Authorizeds");
     }
 
     const [, token] = bearer.split(" ");
     if (!token) {
       throw new AuthenticationError("Invalid Token");
     }
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, process.env.APP_SECRET);
     req.user = payload;
+    console.log(req.user);
     next();
     return;
   } catch (error) {

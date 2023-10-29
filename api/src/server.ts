@@ -3,9 +3,10 @@ import { IncomingMessage } from "node:http";
 import cors from "cors";
 import morgan from "morgan";
 import { login, signUp } from "./controllers/user-controller";
-import * as e from "express";
 import errorHandler, { handleInputErrors } from "./middleware/errorMiddleware";
-import { body, validationResult } from "express-validator";
+import { body } from "express-validator";
+import router from "./routes/router";
+import { protect } from "./modules/auth";
 
 const app = express();
 
@@ -39,6 +40,8 @@ app.post(
   handleInputErrors,
   login
 );
+app.use("/api", protect, router);
+
 app.use(errorHandler);
 
 export default app;
