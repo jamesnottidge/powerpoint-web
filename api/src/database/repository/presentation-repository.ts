@@ -20,6 +20,7 @@ export class PresentationRepository {
         // thumbnail_url,
         created_by,
       } = presentation;
+
       const newPresentation = await this.model.Presentation.create({
         title,
         description,

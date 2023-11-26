@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from "express"
 import { createPresentation } from "../controllers/presentation-controller";
 import { body } from "express-validator";
 import { handleInputErrors } from "../middleware/errorMiddleware";

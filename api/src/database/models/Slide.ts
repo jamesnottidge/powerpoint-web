@@ -21,6 +21,12 @@ export const Slide = (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      added_by: {
+        type: DataTypes.UUID,
+      },
+      last_edited_by: {
+        type: DataTypes.UUID,
+      },
     },
     {
       timestamps: true,
