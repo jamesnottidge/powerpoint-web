@@ -25,3 +25,14 @@ export class DatabaseError extends SequelizeError {
     }
   }
 }
+
+export class AuthorizationError extends Error {
+  constructor(message: string, cause?: Error) {
+    super(message);
+    this.name = "AuthorizationError";
+
+    if (cause) {
+      this.stack = `${this.stack}\nCaused by: ${cause.stack}`;
+    }
+  }
+}
