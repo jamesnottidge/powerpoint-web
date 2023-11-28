@@ -36,6 +36,43 @@ export class PresentationRepository {
     }
   }
 
+  async ownershipCheck(presentation_id: any, user_id: any) {
+    try {
+      const presentation = await this.model.Presentation.findOne({
+        where: {
+          presentation_id: presentation_id,
+        },
+      });
+      if (presentation?.created_by === user_id) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async addEditorToPresentation(presentationId: string, editorId: string) {
+    try {
+      const presentation = await this.model.Presentation.findByPk(
+        presentationId
+      );
+      const user = await this.model.User.findByPk(editorId);
+      const existingEditor = await presentation?.hasEditor(user);
+      if (existingEditor) {
+        throw new DatabaseError("User is already an editor", null);
+      }
+      await presentation?.addEditor(user);
+      return presentation;
+    } catch (error) {
+      if (error instanceof DatabaseError) {
+        throw error;
+      }
+      console.error(error);
+      throw new DatabaseError("Error adding editor to presentation", error);
+    }
+  }
+
   async getPresentations() {
     try {
       const presentations = await this.model.Presentation.findAll();

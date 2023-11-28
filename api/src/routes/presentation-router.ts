@@ -1,5 +1,8 @@
-import { Router } from "express"
-import { createPresentation } from "../controllers/presentation-controller";
+import { Router } from "express";
+import {
+  addEditorToPresentation,
+  createPresentation,
+} from "../controllers/presentation-controller";
 import { body } from "express-validator";
 import { handleInputErrors } from "../middleware/errorMiddleware";
 
@@ -19,5 +22,5 @@ presentationRouter.post(
 
   createPresentation
 );
-
+presentationRouter.post("/add-editor", addEditorToPresentation);
 export default presentationRouter;
