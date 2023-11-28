@@ -26,4 +26,16 @@ export function associations(sequelize: Sequelize) {
   });
 
   slide.belongsTo(presentation);
+
+  presentation.belongsToMany(user, {
+    through: "Editors",
+    as: "editor",
+    foreignKey: "presentation_id",
+  });
+
+  user.belongsToMany(presentation, {
+    through: "Editors",
+    as: "presentation",
+    foreignKey: "user_id",
+  });
 }
