@@ -35,4 +35,37 @@ export class PresentationRepository {
       throw new DatabaseError("Error creating presentation", error);
     }
   }
+
+  async getPresentations() {
+    try {
+      const presentations = await this.model.Presentation.findAll();
+      return presentations;
+    } catch (error) {
+      console.error(error);
+      throw new DatabaseError("Error getting presentations", error);
+    }
+  }
+
+  async getPresentationsByUser(userId: number) {
+    try {
+      const presentations = await this.model.Presentation.findAll({
+        where: {
+          created_by: userId,
+        },
+      });
+      return presentations;
+    } catch (error) {}
+  }
+
+  async getPresentationById(presentationId: number) {
+    try {
+      const presentation = await this.model.Presentation.findByPk(
+        presentationId
+      );
+      return presentation;
+    } catch (error) {
+      console.error(error);
+      throw new DatabaseError("Error getting presentation", error);
+    }
+  }
 }
