@@ -83,7 +83,7 @@ export class PresentationRepository {
     }
   }
 
-  async getPresentationsByUser(userId: number) {
+  async getPresentationsByUser(userId: string) {
     try {
       const presentations = await this.model.Presentation.findAll({
         where: {

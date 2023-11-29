@@ -43,3 +43,21 @@ export const addEditorToPresentation = async (
     next(error);
   }
 };
+
+
+export const getPresentationsByUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const presentations = await presentationService.getPresentationsByUser(req.user.id);
+        return res.status(200).json({
+            message: "Success!",
+            data: presentations,
+        });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+}

@@ -52,4 +52,14 @@ export class PresentationService {
       throw new Error("presentation service");
     }
   }
+
+  async getPresentationsByUser(user_id: string) {  
+    try {
+        const presentations = await this.repository.getPresentationsByUser(user_id);
+        return presentations;
+    } catch (error) {   
+        console.error(error);
+        throw new Error("presentation service");
+    }
+  }
 }

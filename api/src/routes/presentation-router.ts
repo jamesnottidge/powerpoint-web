@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   addEditorToPresentation,
   createPresentation,
+  getPresentationsByUser,
 } from "../controllers/presentation-controller";
 import { body } from "express-validator";
 import { handleInputErrors } from "../middleware/errorMiddleware";
@@ -23,4 +24,5 @@ presentationRouter.post(
   createPresentation
 );
 presentationRouter.post("/add-editor", addEditorToPresentation);
+presentationRouter.get("/all-presentations", getPresentationsByUser);
 export default presentationRouter;
